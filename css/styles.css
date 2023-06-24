@@ -12,21 +12,37 @@ body {
 }
 
 #background {
-    width: 1000px;
-    height: 600px;
+    width: 90vw;
+    height: 90vh;
     background-image: url('../img/background.jpg');
-    background-size: contain;
+    background-size: cover;
     background-repeat:  no-repeat;
     position: relative;
     overflow: hidden;
 }
 
-.box {
+.box-player {
     position: absolute;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     /* background-image: url('../img/Idle\ \(1\).png'); */
     background-size: cover;
     background-repeat: no-repeat;
+    background-color: black;
     bottom: 70px;
+    left: 75px;
+    transform:translateX(-50%);
+    /* visibility: visible; */
+}
+.box-enemy {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    /* background-image: url('../img/Idle\ \(1\).png'); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+    bottom: 70px;
+    left: 75px;
+    transform:translateX(-50%);
 }

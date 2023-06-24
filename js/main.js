@@ -1,104 +1,107 @@
-/* Load all the images at the startup */
-for(let i = 1; i <= 12; i++){
-    const image = new Image();
-    image.src  = `img/Jump (${i}).png`;
-}
-for(let i = 1; i <= 10; i++){
-    const image = new Image();
-    image.src  = `img/Idle (${i}).png`;
-}
-for(let i = 1; i <= 10; i++){
-    const image = new Image();
-    image.src  = `img/Walk (${i}).png`;
-}
+import { Enemy } from "./enemy.js";
+import { Player } from "./player.js";
 
-const boxElm = document.createElement('div');
-boxElm.classList.add('box');
-document.getElementById('background').append(boxElm);
+const replay=document.createElement('button');
+replay.classList.add('replay');
 
-document.body.addEventListener('click', ()=> document.body.requestFullscreen());
+document.getElementById('background').append(replay);
+replay.textContent='Replay';
+document.body.requestFullscreen();
 
-let jump = false;
+
+
+////////////////////////////this logics belongs to player//////////////////////////////////////////
 let run = false;
-let dx = 0;
+const player=new Player();
+export const enemy=new Enemy();
+
+
 
 document.body.addEventListener('keydown', (eventData)=> {
     if (eventData.code === 'Space'){
-        jump = true;
+        player.jump = true;
     }else if (eventData.code === 'ArrowRight'){
-        boxElm.style.transform = 'rotateY(0deg)'
+        player.transfom(0);
         run = true;
-        dx = 2;
+        player.dx=2;
+       // console.log(player.playerElm.style.left);
+     
     }else if (eventData.code === 'ArrowLeft'){
-        boxElm.style.transform = 'rotateY(180deg)';
+        player.transfom(180);
         run = true;
-        dx = -2;
+        player.dx=-2;
+        //console.log(player.playerElm.style.left);
+        
     }
 });
 
 document.body.addEventListener('keyup', (eventData) => {
     if (eventData.code === 'ArrowRight'){
         run = false;
-        dx = 0;
+        player.dx=0;
     }else if (eventData.code === 'ArrowLeft'){
         run = false;
-        dx = 0;
+        player.dx=0;
     }
 });
 
-let angle = 0;
-function doJump(){
-    let y  = Math.cos(angle * (Math.PI / 180));
-    y *= 3;
-    boxElm.style.top = (boxElm.offsetTop - y) + "px";
-    angle++;
-    if (angle >  180){
-        jump = false;
-        angle = 0;  
-    }
-}
-
-function doRun(){
-    let x = boxElm.offsetLeft + dx;
-    if ((x + boxElm.offsetWidth)> innerWidth) {
-        x = innerWidth - boxElm.offsetWidth;
-    }else if (x <= -250) x = -250;
-    boxElm.style.left = `${x}px`;
-}
-
-let i = 1;
-function drawIdle(){
-    boxElm.style.backgroundImage = `url('img/Idle (${i++}).png')`;
-    if(i === 10) i = 1;
-}
-
-let k = 1;
-function drawJump(){
-    boxElm.style.backgroundImage = `url('img/Jump (${k++}).png')`;
-    if(k === 12) k = 1;
-}
-
-let j = 1;
-function drawRun(){
-    boxElm.style.backgroundImage = `url('img/Walk (${j++}).png')`;
-    if(j === 10) j = 1;
-}
 
 setInterval(()=> {
-    if (jump){
-        doJump();
+    if (player.jump){
+        player.doJump();
     }
     if (run){
-        doRun();
+        player.doRun();
     }
 }, 5);
 
 setInterval(()=> {
-    if (!jump && !run){
-        drawIdle();
-    }else if (jump){
-        drawJump();
-    }else if (!jump && run){
-        drawRun();
+    if(enemy.kill){
+        player.drawDie();
+        
+      
+
     }
-} , (1000/20));
+    else if (!player.jump && !run){
+        player.drawIdle();
+    }else if (player.jump){
+        player.drawJump();
+    }else if (!player.jump && run){
+        player.drawRun();
+    }
+} , (50));
+
+// document.body.addEventListener('click', ()=> document.body.requestFullscreen());
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////this logics belongs to enemy///////////////////////////////////////
+
+setInterval(()=> {
+    enemy.drawRun();
+    
+} , (50));
+
+setInterval(()=> {
+    enemy.doRun();
+    enemy.player=player.playerElm;
+}, 15);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////Colision Detection///////////////////////////////////////////
+
+
+//////////////////////////Replay////////////////////////////////////////////////
+
+document.body.addEventListener('click', (eventData)=> {
+    if (eventData?.target.classList.contains("replay")){
+        enemy.kill=false;
+        player.playerElm.style.visibility='visible';
+        
+    }
+});
+
+
+
