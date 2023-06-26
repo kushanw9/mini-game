@@ -1,4 +1,3 @@
-import {player} from "./main.js";
 
 
 export class Enemy {
@@ -6,7 +5,7 @@ export class Enemy {
     j = 1;
     playerElm = null;
     kill = false;
-    gameOverWindow=document.getElementById('game-over-window');
+
   
     constructor() {
       this.loadImages();
@@ -51,11 +50,9 @@ export class Enemy {
       this.enemyElement.style.left = `${x}px`;
 
       // collision detection part
-        if (player.alive) {
+        if (!this.kill) {
             this.checkCollision();
         }
-
-  
 
     }
 
@@ -71,13 +68,6 @@ export class Enemy {
                 playerRect.bottom > enemyRect.top
             ) {
                 this.kill = true;
-                player.alive=false;
-                console.log("Collision detected");
-                this.gameOverWindow.style.visibility = 'visible';
-
-
-
-
 
             }
         }

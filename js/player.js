@@ -1,4 +1,4 @@
-import {enemy} from "./main.js";
+import {finish} from "./main.js";
 
 export class Player {
     playerElm;
@@ -10,6 +10,7 @@ export class Player {
     d=1;
     angle=0;
     alive=true;
+    gameOver=false;
 
 
 
@@ -49,23 +50,29 @@ export class Player {
     transform(dir){this.playerElm.style.transform = `rotateY(${dir}deg)`;}
 
     doJump(){
-        let y  = Math.cos(this.angle * (Math.PI / 180));
-        y *= 5;
-        this.playerElm.style.top = (this.playerElm.offsetTop - y) + "px";
-        this.angle++;
-        if (this.angle >  180){
-            this.jump = false;
-            this.angle = 0;  
+        if (this.alive) {
+            let y  = Math.cos(this.angle * (Math.PI / 180));
+            y *= 5;
+            this.playerElm.style.top = (this.playerElm.offsetTop - y) + "px";
+            this.angle++;
+            if (this.angle >  180){
+                this.jump = false;
+                this.angle = 0;
+            }
         }
+
     }
 
     doRun(){
-        let x = this.playerElm.offsetLeft + this.dx;
-        if ((x + this.playerElm.offsetWidth)> innerWidth) {
-            x = innerWidth - this.playerElm.offsetWidth;
-            this.dx=0;
-        } else if (x <= -50) x = -50;
-        this.playerElm.style.left = `${x}px`; 
+        if (this.alive) {
+            let x = this.playerElm.offsetLeft + this.dx;
+            if ((x + this.playerElm.offsetWidth)> innerWidth) {
+                x = innerWidth - this.playerElm.offsetWidth;
+                this.dx=0;
+            } else if (x <= -50) x = -50;
+            this.playerElm.style.left = `${x}px`;
+        }
+
     }
 
     drawIdle(){
@@ -84,14 +91,14 @@ export class Player {
     }
     
     drawDie(){
-        if (!this.alive) {
+        if (!this.alive && !this.gameOver) {
             this.playerElm.style.backgroundImage = `url('img/Dead (${this.d++}).png')`;
             if (this.d === 8) {
-
                 this.playerElm.style.backgroundImage = `url('img/Dead (${7}).png')`;
-                //this.alive=true;
+                this.gameOver=true;
                 this.d=1
-                enemy.kill = false;
+                finish()
+
 
 
             }

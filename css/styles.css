@@ -32,6 +32,24 @@ body {
 #game-over-window img {
     height: 150px;
 }
+#b1{
+
+}
+#b1 {
+    height: 40px;
+    width: 60px;
+    background-image: url('../img/assets/play.png');
+    background-size: cover; /* Adjust as needed */
+    background-position: center; /* Adjust as needed */
+    /* Add other styles as desired */
+}
+
+.touch{
+    background: blue;
+}
+#btn-play{
+    background: red;
+}
 #btn-play:hover {
     opacity: 0.8;
     scale:1.1;

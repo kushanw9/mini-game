@@ -2,26 +2,22 @@ import { Enemy } from "./enemy.js";
 import { Player } from "./player.js";
 
 
-
-
-
 const gameOver = document.getElementById('game-over-window');
 const gameOverLogo = document.getElementById('game-over-logo').setAttribute('src', 'img/assets/game-over.png');
 const playLogo=document.getElementById('btn-play').setAttribute('src', 'img/assets/play.png');
 
 
 
-
-
 ////////////////////////////this logics belongs to player//////////////////////////////////////////
 
 let run = false;
-export const player=new Player();
-export const enemy=new Enemy();
+const player=new Player();
+const enemy=new Enemy();
 
 enemy.playerElm=player.playerElm;
 
 
+/////////////////////////////// Player Controllers///////////////////////////////////////////////
 
 document.body.addEventListener('keydown', (eventData)=> {
     if (eventData.code === 'Space' && player.alive){
@@ -31,41 +27,69 @@ document.body.addEventListener('keydown', (eventData)=> {
         run = true;
         player.dx=2;
 
-     
+
     }else if (eventData.code === 'ArrowLeft' && player.alive){
         player.transform(180);
         run = true;
         player.dx=-2;
 
-        
+
     }
 });
 
 document.body.addEventListener('keyup', (eventData) => {
-    if (eventData.code === 'ArrowRight' && player.alive){
+    if (eventData.code === 'ArrowRight'){
         run = false;
         player.dx=0;
-    }else if (eventData.code === 'ArrowLeft' && player.alive){
+    }else if (eventData.code === 'ArrowLeft'){
         run = false;
         player.dx=0;
     }
 });
 
-// replay logic
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////// Replay ////////////////////////////////////////////////////////////////
+
+
 document.body.addEventListener('click', (eventData) => {
     if (eventData?.target.classList.contains('touch')) {
-        enemy.kill=false;
-        player.alive=true;
-        gameOver.style.visibility = 'hidden';
-        enemy.enemyElement.style.left = `${1200}px`;
-        player.playerElm.style.left = `${75}px`;
-        player.playerElm.style.transform=`translateX(-${50}%)`;
-
-
-        flag=true;
-        eventData.target.classList.remove('touch')
+        reset();
     }
 });
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// document.body.addEventListener('click', ()=> document.body.requestFullscreen());
+
+
+
+////////////////////////////// Finish and Reset ///////////////////////////////////////
+
+
+export function finish() {
+    gameOver.style.visibility = 'visible';
+}
+
+function reset() {
+    enemy.kill=false;
+    player.alive=true;
+    gameOver.style.visibility = 'hidden';
+    enemy.enemyElement.style.left = `${1200}px`;
+    player.playerElm.style.left = `${75}px`;
+    player.playerElm.style.transform=`translateX(-${50}%)`;
+    player.gameOver=false;
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+//////////////////////////////// Time Intervals/////////////////////////////////////////////////////
+
+// Related to player
 
 setInterval(()=> {
     if (player.jump){
@@ -76,29 +100,22 @@ setInterval(()=> {
     }
 }, 5);
 
-let flag=true;
+
 
 setInterval(()=> {
     if(enemy.kill){
-        flag=false;
-
-
         player.drawDie();
     }
-    else if (!player.jump && !run && flag){
+    else if (!player.jump && !run){
         player.drawIdle();
-    }else if (player.jump && flag){
+    }else if (player.jump){
         player.drawJump();
-    }else if (!player.jump && run && flag){
+    }else if (!player.jump && run){
         player.drawRun();
     }
 } , (50));
 
-// document.body.addEventListener('click', ()=> document.body.requestFullscreen());
-
-
-
-//////////////////////////////this logics belongs to enemy///////////////////////////////////////
+// Related to Enemy
 
 setInterval(()=> {
     enemy.drawRun();
@@ -106,10 +123,16 @@ setInterval(()=> {
 } , (50));
 
 setInterval(()=> {
-    enemy.doRun();
-    enemy.player=player.playerElm;
+    if (enemy.kill && player.alive) {
+        player.alive = false;
+    }
+    if (!enemy.kill) {
+        enemy.doRun();
+    } else {
+        enemy.enemyElement.style.left='-250px';
+    }
+
 }, 15);
 
 
-
-
+///////////////////////////////////////////////////////////////////////////////////
