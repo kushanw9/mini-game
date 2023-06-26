@@ -1,13 +1,12 @@
+import {player} from "./main.js";
+
+
 export class Enemy {
     enemyElement;
-    jump = false;
-    run = false;
-    dx = 0;
     j = 1;
-    player = null;
-    playerRadius = Math.ceil(Math.hypot(200, 200) / 2)-10;
-    enemyRadius = Math.ceil(Math.hypot(200, 200) / 2)-10;
+    playerElm = null;
     kill = false;
+    gameOverWindow=document.getElementById('game-over-window');
   
     constructor() {
       this.loadImages();
@@ -52,25 +51,36 @@ export class Enemy {
       this.enemyElement.style.left = `${x}px`;
 
       // collision detection part
-  
-      if (this.player) {
-        const playerRect = this.player.getBoundingClientRect();
-        const enemyRect = this.enemyElement.getBoundingClientRect();
-  
-        if (
-          playerRect.left < enemyRect.right &&
-          playerRect.right > enemyRect.left &&
-          playerRect.top < enemyRect.bottom &&
-          playerRect.bottom > enemyRect.top
-          ) {
-            console.log(this.kill);
-
-          this.kill = true;
-          this.player.alive=false;
-          console.log('Collision detected');
-         
+        if (player.alive) {
+            this.checkCollision();
         }
-      }
+
+  
+
+    }
+
+    checkCollision() {
+        if (this.playerElm) {
+            const playerRect = this.playerElm.getBoundingClientRect();
+            const enemyRect = this.enemyElement.getBoundingClientRect();
+
+            if (
+                playerRect.left < enemyRect.right &&
+                playerRect.right > enemyRect.left &&
+                playerRect.top < enemyRect.bottom &&
+                playerRect.bottom > enemyRect.top
+            ) {
+                this.kill = true;
+                player.alive=false;
+                console.log("Collision detected");
+                this.gameOverWindow.style.visibility = 'visible';
+
+
+
+
+
+            }
+        }
     }
   }
  
