@@ -25,19 +25,19 @@ export class Player {
     loadImages() {
         for(let i = 1; i <= 12; i++){
             const image = new Image();
-            image.src  = `img/Jump (${i}).png`;
+            image.src  = `img/player/Jump (${i}).png`;
         }
         for(let i = 1; i <= 10; i++){
             const image = new Image();
-            image.src  = `img/Idle (${i}).png`;
+            image.src  = `img/player/Idle (${i}).png`;
         }
-        for(let i = 1; i <= 10; i++){
+        for(let i = 1; i <= 7; i++){
             const image = new Image();
-            image.src  = `img/Walk (${i}).png`;
+            image.src  = `img/player/Run (${i}).png`;
         }
         for(let i = 1; i <= 8; i++){
             const image = new Image();
-            image.src  = `img/Dead (${i}).png`;
+            image.src  = `img/player/Dead (${i}).png`;
         }
     }
 
@@ -52,7 +52,7 @@ export class Player {
     doJump(){
         if (this.alive) {
             let y  = Math.cos(this.angle * (Math.PI / 180));
-            y *= 5;
+            y *= 7;
             this.playerElm.style.top = (this.playerElm.offsetTop - y) + "px";
             this.angle++;
             if (this.angle >  180){
@@ -76,25 +76,26 @@ export class Player {
     }
 
     drawIdle(){
-        this.playerElm.style.backgroundImage = `url('img/Idle (${this.i++}).png')`;
+        this.playerElm.style.backgroundImage = `url('img/player/Idle (${this.i++}).png')`;
         if(this.i === 10) this.i = 1;
     }
 
     drawJump(){
-        this.playerElm.style.backgroundImage = `url('img/Jump (${this.k++}).png')`;
+        this.playerElm.style.backgroundImage = `url('img/player/Jump (${this.k++}).png')`;
         if(this.k === 12) this.k = 1;
     }
 
     drawRun(){
-        this.playerElm.style.backgroundImage = `url('img/Walk (${this.j++}).png')`;
-        if(this.j === 10) this.j = 1;
+        this.playerElm.style.backgroundImage = `url('img/player/Run (${this.j++}).png')`;
+        if(this.j === 8) this.j = 1;
     }
     
     drawDie(){
         if (!this.alive && !this.gameOver) {
-            this.playerElm.style.backgroundImage = `url('img/Dead (${this.d++}).png')`;
+            this.playerElm.style.backgroundImage = `url('img/player/Dead (${this.d++}).png')`;
+            this.playerElm.style.width='200px'
             if (this.d === 8) {
-                this.playerElm.style.backgroundImage = `url('img/Dead (${7}).png')`;
+                this.playerElm.style.backgroundImage = `url('img/player/Dead (${7}).png')`;
                 this.gameOver=true;
                 this.d=1
                 finish()

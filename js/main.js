@@ -3,8 +3,8 @@ import { Player } from "./player.js";
 
 
 const gameOver = document.getElementById('game-over-window');
-const gameOverLogo = document.getElementById('game-over-logo').setAttribute('src', 'img/assets/game-over.png');
-const playLogo=document.getElementById('btn-play').setAttribute('src', 'img/assets/play.png');
+const gameOverLogo = document.getElementById('game-over-logo').setAttribute('src', 'img/assets/bg.png');
+const playLogo=document.getElementById('btn-play').setAttribute('src', 'img/assets/pl.png');
 
 
 
@@ -25,13 +25,13 @@ document.body.addEventListener('keydown', (eventData)=> {
     }else if (eventData.code === 'ArrowRight' && player.alive){
         player.transform(0);
         run = true;
-        player.dx=2;
+        player.dx=4;
 
 
     }else if (eventData.code === 'ArrowLeft' && player.alive){
         player.transform(180);
         run = true;
-        player.dx=-2;
+        player.dx=-4;
 
 
     }
@@ -80,6 +80,7 @@ function reset() {
     player.playerElm.style.left = `${75}px`;
     player.playerElm.style.transform=`translateX(-${50}%)`;
     player.gameOver=false;
+    player.playerElm.style.width='180px'
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

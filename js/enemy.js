@@ -36,7 +36,7 @@ export class Enemy {
     }
   
     drawRun() {
-      this.enemyElement.style.backgroundImage = `url('img/Walk (${this.j++}).png')`;
+      this.enemyElement.style.backgroundImage = `url('img/enemy/Walk (${this.j++}).png')`;
       if (this.j === 10) this.j = 1;
     }
   
@@ -52,6 +52,7 @@ export class Enemy {
       // collision detection part
         if (!this.kill) {
             this.checkCollision();
+            console.log("Collision checking")
         }
 
     }
@@ -68,6 +69,7 @@ export class Enemy {
                 playerRect.bottom > enemyRect.top
             ) {
                 this.kill = true;
+                console.log("Player died")
 
             }
         }
