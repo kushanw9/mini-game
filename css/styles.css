@@ -32,16 +32,14 @@ body {
 #game-over-window img {
     height: 150px;
 }
-#b1{
 
-}
 #b1 {
     height: 40px;
     width: 60px;
     background-image: url('../img/assets/play.png');
-    background-size: cover; /* Adjust as needed */
-    background-position: center; /* Adjust as needed */
-    /* Add other styles as desired */
+    background-size: cover;
+    background-position: center;
+
 }
 
 
@@ -52,12 +50,12 @@ body {
 }
 
 #background {
-    width: 90vw;
-    height: 90vh;
-    background-image: url('../img/background.jpg');
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../img/bg.jpg');
     background-size: cover;
     background-repeat:  no-repeat;
-    position: relative;
+    position: absolute;
     overflow: hidden;
 }
 
@@ -65,24 +63,24 @@ body {
     position: absolute;
     width: 180px;
     height: 180px;
-    /* background-image: url('../img/Idle\ \(1\).png'); */
     background-size: contain;
     background-repeat: no-repeat;
     background-color: black;
-    bottom: 70px;
+    bottom: 20px;
     left: 75px;
     transform:translateX(-50%);
-    /* visibility: visible; */
+    overflow: hidden;
+
 }
 .box-enemy {
     position: absolute;
     width: 160px;
     height: 160px;
-    /* background-image: url('../img/Idle\ \(1\).png'); */
     background-size: contain;
     background-repeat: no-repeat;
     background-color: black;
-    bottom: 70px;
+    bottom: 30px;
     left: 75px;
     transform:translateX(-50%);
+    overflow: hidden;
 }
